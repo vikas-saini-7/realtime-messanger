@@ -25,6 +25,7 @@ export default defineSchema({
   conversations: defineTable({
     isGroup: v.boolean(),
     name: v.optional(v.string()),
+    createdAt: v.number(),
 
     // Cached sidebar preview (optimization)
     lastMessage: v.optional(v.string()),
