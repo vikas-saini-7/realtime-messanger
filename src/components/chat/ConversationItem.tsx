@@ -4,6 +4,7 @@ import UnreadBadge from "./UnreadBadge";
 
 import type { ConversationItemProps } from "../../types/chat";
 import { useParams } from "next/navigation";
+import { formatMessageTime } from "@/lib/format-times";
 
 export default function ConversationItem({
   conversation,
@@ -28,10 +29,7 @@ export default function ConversationItem({
           <span className="font-medium">{conversation.name}</span>
           <span className="text-xs text-gray-500">
             {conversation.lastMessageAt
-              ? new Date(conversation.lastMessageAt).toLocaleTimeString([], {
-                  hour: "numeric",
-                  minute: "2-digit",
-                })
+              ? formatMessageTime(conversation.lastMessageAt)
               : ""}
           </span>
         </div>

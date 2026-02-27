@@ -67,3 +67,22 @@ export const getUser = query({
     return await ctx.db.get(args.userId);
   },
 });
+
+// Mutations for online/offline status
+export const setUserOnline = mutation({
+  args: {
+    userId: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.userId, { isOnline: true, lastSeen: Date.now() });
+  },
+});
+
+export const setUserOffline = mutation({
+  args: {
+    userId: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.userId, { isOnline: false, lastSeen: Date.now() });
+  },
+});

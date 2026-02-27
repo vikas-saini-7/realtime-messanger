@@ -4,6 +4,7 @@ import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { formatLastSeen } from "@/lib/format-times";
 // import { IconUser, IconSettings } from "@tabler/icons-react";
 
 interface ChatHeaderProps {
@@ -58,11 +59,20 @@ export default function ChatHeader({ conversationId }: ChatHeaderProps) {
           <div className="font-semibold text-lg">
             {partnerUser?.name || conversation.name || "Chat"}
           </div>
-          <div className="text-xs text-green-500 flex items-center gap-1">
+          <div className="text-xs flex items-center gap-1">
             <span
               className={`w-2 h-2 rounded-full ${partnerUser?.isOnline ? "bg-green-500" : "bg-gray-400"} inline-block`}
             />
-            {partnerUser?.isOnline ? "Active" : "Offline"}
+            {partnerUser?.isOnline ? (
+              <span className="text-green-500">Active</span>
+            ) : (
+              <span className="text-gray-500">
+                Last seen{" "}
+                {partnerUser?.lastSeen
+                  ? formatLastSeen(partnerUser.lastSeen)
+                  : "unknown"}
+              </span>
+            )}
           </div>
         </div>
       </div>
