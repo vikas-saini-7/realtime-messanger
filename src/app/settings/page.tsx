@@ -1,11 +1,9 @@
 "use client";
 
-
 import { useRouter, useSearchParams } from "next/navigation";
 import { IconChevronLeft } from "@tabler/icons-react";
 import { useUser } from "@clerk/nextjs";
 import { Suspense } from "react";
-
 
 function SettingsPageContent() {
   const router = useRouter();
