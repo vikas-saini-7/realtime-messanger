@@ -45,17 +45,31 @@ export const searchUsers = query({
     search: v.string(),
   },
   handler: async (ctx, args) => {
-    const search = args.search.trim().toLowerCase();
+    const identity = await ctx.auth.getUserIdentity();
+    let currentUserId = null;
+    if (identity) {
+      const currentUser = await ctx.db
+        .query("users")
+        .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
+        .unique();
+      currentUserId = currentUser?._id;
+    }
 
+    const search = args.search.trim().toLowerCase();
     const users = await ctx.db.query("users").collect();
 
-    // If blank → return all users
+    // Exclude current user
+    const filteredUsers = users.filter((user) => user._id !== currentUserId);
+
+    // If blank → return all users except current
     if (search === "") {
-      return users;
+      return filteredUsers;
     }
 
     // Otherwise filter
-    return users.filter((user) => user.name.toLowerCase().includes(search));
+    return filteredUsers.filter((user) =>
+      user.name.toLowerCase().includes(search),
+    );
   },
 });
 
