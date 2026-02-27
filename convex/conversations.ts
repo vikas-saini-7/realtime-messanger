@@ -55,7 +55,13 @@ export const getConversations = query({
         .withIndex("by_conversation", (q) =>
           q.eq("conversationId", conversation._id),
         )
-        .filter((q) => q.gt(q.field("createdAt"), membership.lastReadAt))
+        .filter((q) =>
+          q.and(
+            q.gt(q.field("createdAt"), membership.lastReadAt),
+            q.neq(q.field("senderId"), currentUser._id),
+            q.eq(q.field("isDeleted"), false),
+          ),
+        )
         .collect();
 
       results.push({
@@ -168,5 +174,37 @@ export const getConversationHeader = query({
       conversation,
       partnerUser,
     };
+  },
+});
+
+export const markAsRead = mutation({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return;
+
+    const currentUser = await ctx.db
+      .query("users")
+      .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
+      .unique();
+
+    if (!currentUser) return;
+
+    const membership = await ctx.db
+      .query("conversationMembers")
+      .withIndex("by_user_conversation", (q) =>
+        q
+          .eq("userId", currentUser._id)
+          .eq("conversationId", args.conversationId),
+      )
+      .unique();
+
+    if (!membership) return;
+
+    await ctx.db.patch(membership._id, {
+      lastReadAt: Date.now(),
+    });
   },
 });

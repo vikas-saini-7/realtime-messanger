@@ -18,13 +18,21 @@ export default function ConversationItem({
         isActive ? "bg-gray-100 border-gray-500/10" : "hover:bg-gray-100"
       }`}
     >
-      <Avatar src={conversation.image} className="w-10 h-10 rounded-xl border border-gray-200 object-cover shadow-sm" />
+      <Avatar
+        src={conversation.image}
+        className="w-10 h-10 rounded-xl border border-gray-200 object-cover shadow-sm"
+      />
 
       <div className="flex-1">
         <div className="flex justify-between">
           <span className="font-medium">{conversation.name}</span>
           <span className="text-xs text-gray-500">
-            {conversation.lastMessageAt}
+            {conversation.lastMessageAt
+              ? new Date(conversation.lastMessageAt).toLocaleTimeString([], {
+                  hour: "numeric",
+                  minute: "2-digit",
+                })
+              : ""}
           </span>
         </div>
 

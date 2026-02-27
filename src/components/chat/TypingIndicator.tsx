@@ -1,4 +1,4 @@
-export default function TypingIndicator() {
+export default function TypingIndicator({}) {
   const isTyping = false;
 
   if (!isTyping) return null;
