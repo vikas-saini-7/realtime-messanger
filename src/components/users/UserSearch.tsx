@@ -76,10 +76,22 @@ export default function UserSearch() {
           {/* 3-dots dropdown */}
           {dropdownOpen && (
             <div className="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-100 rounded-xl shadow-xl z-50 py-2">
-              <button className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition">
+              <button
+                className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
+                onClick={() => {
+                  setDropdownOpen(false);
+                  router.push("/profile");
+                }}
+              >
                 Profile
               </button>
-              <button className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition">
+              <button
+                className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
+                onClick={() => {
+                  setDropdownOpen(false);
+                  router.push("/settings");
+                }}
+              >
                 Settings
               </button>
             </div>

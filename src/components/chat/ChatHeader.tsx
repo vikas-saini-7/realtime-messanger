@@ -3,6 +3,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { Id } from "../../../convex/_generated/dataModel";
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 // import { IconUser, IconSettings } from "@tabler/icons-react";
 
 interface ChatHeaderProps {
@@ -15,6 +16,7 @@ export default function ChatHeader({ conversationId }: ChatHeaderProps) {
   });
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dotsRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   useEffect(() => {
     if (!dropdownOpen) return;
     function handleClick(e: MouseEvent) {
@@ -88,8 +90,23 @@ export default function ChatHeader({ conversationId }: ChatHeaderProps) {
         {/* 3-dots dropdown */}
         {dropdownOpen && (
           <div className="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-100 rounded-xl shadow-xl z-50 py-2">
-            <button className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition">
-              Close
+            <button
+              className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
+              onClick={() => {
+                setDropdownOpen(false);
+                router.push("/profile");
+              }}
+            >
+              Profile
+            </button>
+            <button
+              className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
+              onClick={() => {
+                setDropdownOpen(false);
+                router.push("/settings");
+              }}
+            >
+              Settings
             </button>
           </div>
         )}

@@ -24,7 +24,7 @@ export default function ChatWindow({
   }, [conversationId, markAsRead]);
 
   return (
-    <div className="flex flex-col h-full border-l">
+    <div className="flex flex-col h-full">
       <ChatHeader conversationId={conversationId} />
 
       <div className="flex-1 overflow-y-auto p-4 bg-gray-500/10">
