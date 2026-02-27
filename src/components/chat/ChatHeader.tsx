@@ -79,7 +79,7 @@ export default function ChatHeader({ conversationId }: ChatHeaderProps) {
       <div ref={dotsRef} className="relative">
         <button
           type="button"
-          className="p-2 rounded-full hover:bg-gray-100 transition border"
+          className="p-2 rounded-xl hover:bg-gray-100 transition border shadow-sm"
           onClick={() => setDropdownOpen((v) => !v)}
           aria-label="Open menu"
         >
