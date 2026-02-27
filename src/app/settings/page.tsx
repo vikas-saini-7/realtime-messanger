@@ -2,13 +2,14 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { IconChevronLeft } from "@tabler/icons-react";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
 import { Suspense } from "react";
 
 function SettingsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, isLoaded } = useUser();
+  const { signOut } = useClerk();
 
   const activeTab = searchParams.get("tab") ?? "profile";
 
@@ -112,6 +113,16 @@ function SettingsPageContent() {
                           ? new Date(user.createdAt).toLocaleDateString()
                           : "-"}
                       </p>
+                    </div>
+
+                    {/* Logout Button */}
+                    <div className="pt-4">
+                      <button
+                        onClick={() => signOut()}
+                        className="px-4 py-2 bg-red-600 text-white rounded-xl font-medium text-sm hover:bg-red-700 transition shadow-sm"
+                      >
+                        Log out
+                      </button>
                     </div>
                   </div>
                 </>
