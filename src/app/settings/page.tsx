@@ -20,7 +20,7 @@ function SettingsPageContent() {
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-500/10 backdrop-blur-sm flex items-center justify-center p-6">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6">
       <div className="w-full max-w-3xl bg-white border border-gray-200 rounded-2xl shadow-sm">
         {/* Header */}
         <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
@@ -86,7 +86,10 @@ function SettingsPageContent() {
                       <h2 className="text-xl font-semibold text-gray-900">
                         {user.fullName}
                       </h2>
-                      <p className="text-sm text-gray-500">Active</p>
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+                        <p className="text-sm text-green-600 font-medium">Active</p>
+                      </div>
                     </div>
                   </div>
 
