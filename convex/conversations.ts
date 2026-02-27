@@ -81,74 +81,6 @@ export const createOrGetConversation = mutation({
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-    console.log("[DEBUG] Identity:", identity);
-    if (!identity) {
-      console.error("[DEBUG] Unauthorized: No identity");
-      throw new Error("Unauthorized");
-    }
-
-    const currentUser = await ctx.db
-      .query("users")
-      .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
-      .unique();
-    console.log("[DEBUG] currentUser:", currentUser);
-
-    if (!currentUser) {
-      console.error("[DEBUG] User not found for clerkId:", identity.subject);
-      throw new Error("User not found");
-    }
-
-    // Check if conversation already exists
-    const memberships = await ctx.db
-      .query("conversationMembers")
-      .withIndex("by_user", (q) => q.eq("userId", currentUser._id))
-      .collect();
-    console.log("[DEBUG] memberships:", memberships);
-
-    for (const membership of memberships) {
-      const otherMembership = await ctx.db
-        .query("conversationMembers")
-        .withIndex("by_user_conversation", (q) =>
-          q
-            .eq("userId", args.otherUserId)
-            .eq("conversationId", membership.conversationId),
-        )
-        .unique();
-      if (otherMembership) {
-        console.log(
-          "[DEBUG] Existing conversation found:",
-          membership.conversationId,
-        );
-        return membership.conversationId;
-      }
-    }
-
-    // Validate other user exists
-    const otherUser = await ctx.db.get(args.otherUserId);
-    console.log("[DEBUG] otherUser:", otherUser);
-    if (!otherUser) {
-      console.error("[DEBUG] Other user not found:", args.otherUserId);
-      throw new Error("Other user not found");
-    }
-
-    // Create new conversation
-    const conversationId = await ctx.db.insert("conversations", {
-      isGroup: false,
-      createdAt: Date.now(),
-      createdBy: currentUser._id,
-    });
-    console.log("[DEBUG] Created conversationId:", conversationId);
-
-    await ctx.db.insert("conversationMembers", {
-      conversationId,
-      userId: currentUser._id,
-      lastReadAt: Date.now(),
-    });
-    await ctx.db.insert("conversationMembers", {
-      conversationId,
-      userId: args.otherUserId,
-      lastReadAt: Date.now(),
-    });
     if (!identity) {
       throw new Error("Unauthorized");
     }
@@ -207,3 +139,34 @@ export const createOrGetConversation = mutation({
     });
 
     return conversationId;
+  },
+});
+
+export const getConversationHeader = query({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, args) => {
+    const conversation = await ctx.db.get(args.conversationId);
+    if (!conversation) return null;
+    // Get members
+    const members = await ctx.db
+      .query("conversationMembers")
+      .withIndex("by_conversation", (q) =>
+        q.eq("conversationId", args.conversationId),
+      )
+      .collect();
+    // Find partner
+    const partnerMember = members.find(
+      (m) => m.userId !== conversation.createdBy,
+    );
+    let partnerUser = null;
+    if (partnerMember) {
+      partnerUser = await ctx.db.get(partnerMember.userId);
+    }
+    return {
+      conversation,
+      partnerUser,
+    };
+  },
+});

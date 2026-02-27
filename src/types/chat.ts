@@ -11,14 +11,15 @@ export interface Message {
 
 export interface Conversation {
   _id: string;
-  isGroup: boolean;
+  isGroup?: boolean;
   name?: string;
-  createdAt: number;
+  createdAt?: number;
   lastMessage?: string;
   lastMessageAt?: number;
   image: string;
   unreadCount: number;
 }
+
 
 export interface ConversationItemProps {
   conversation: Conversation;

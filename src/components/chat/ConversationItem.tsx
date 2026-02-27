@@ -1,15 +1,22 @@
 import Link from "next/link";
 import Avatar from "../common/Avatar";
 import UnreadBadge from "./UnreadBadge";
+
 import type { ConversationItemProps } from "../../types/chat";
+import { useParams } from "next/navigation";
 
 export default function ConversationItem({
   conversation,
 }: ConversationItemProps) {
+  const params = useParams();
+  const activeId = params?.conversationId;
+  const isActive = activeId === conversation._id;
   return (
     <Link
       href={`/chat/${conversation._id}`}
-      className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 transition"
+      className={`flex items-center border border-transparent gap-3 p-3 rounded-lg transition ${
+        isActive ? "bg-gray-100 border-gray-500/10" : "hover:bg-gray-100"
+      }`}
     >
       <Avatar src={conversation.image} />
 

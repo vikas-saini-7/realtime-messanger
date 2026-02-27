@@ -2,7 +2,7 @@ import Avatar from "../common/Avatar";
 import type { MessageItemProps } from "../../types/chat";
 
 export default function MessageItem({ message }: MessageItemProps) {
-  const isOwn = message.isOwn;
+  const { isOwn } = message;
 
   return (
     <div className={`flex ${isOwn ? "justify-end" : "justify-start"}`}>

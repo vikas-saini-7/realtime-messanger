@@ -6,7 +6,8 @@ import UserSearch from "@/components/users/UserSearch";
 export default function Sidebar() {
   return (
     <aside className="w-full md:w-80 border-r bg-white flex flex-col">
-      <div className="p-4 border-b">
+      <div className="p-4 border-b" 
+      style={{ height: 72 }}>
         <UserSearch />
       </div>
 

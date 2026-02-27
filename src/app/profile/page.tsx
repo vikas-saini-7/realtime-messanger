@@ -4,6 +4,7 @@ import { useUser } from "@clerk/nextjs";
 
 export default function Navbar() {
   const { user } = useUser();
+  console.log(user);
 
   if (!user) return null;
 
