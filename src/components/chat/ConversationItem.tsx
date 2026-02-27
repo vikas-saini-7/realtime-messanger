@@ -18,7 +18,7 @@ export default function ConversationItem({
         isActive ? "bg-gray-100 border-gray-500/10" : "hover:bg-gray-100"
       }`}
     >
-      <Avatar src={conversation.image} />
+      <Avatar src={conversation.image} className="w-10 h-10 rounded-xl border border-gray-200 object-cover shadow-sm" />
 
       <div className="flex-1">
         <div className="flex justify-between">

@@ -10,7 +10,7 @@ export default function AppShell({
   return (
     <div className="h-screen flex overflow-hidden">
       <Sidebar />
-      <main className="flex-1 bg-gray-50">{children}</main>
+      <main className="flex-1 ">{children}</main>
     </div>
   );
 }

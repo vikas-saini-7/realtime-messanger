@@ -37,11 +37,12 @@ export default function MessageInput({ conversationId }: MessageInputProps) {
           if (e.key === "Enter") handleSend();
         }}
         placeholder="Type a message..."
-        className="flex-1 px-3 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-4 py-2 border border-gray-100 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-200 bg-white text-gray-900 placeholder-gray-400 transition"
+        autoComplete="off"
       />
       <button
         onClick={handleSend}
-        className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+        className="px-4 py-2 bg-gray-900 text-white rounded-xl shadow-sm hover:bg-gray-700 disabled:bg-gray-200 disabled:text-gray-400 transition"
       >
         Send
       </button>

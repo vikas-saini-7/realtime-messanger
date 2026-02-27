@@ -11,13 +11,13 @@ export default function ChatWindow({
   conversationId: string;
 }) {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full  border-l">
       <ChatHeader conversationId={conversationId} />
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-4 bg-gray-500/10">
         <MessageList conversationId={conversationId} />
         <TypingIndicator />
       </div>
-      <div className="border-t p-3">
+      <div className=" p-3 bg-gray-500/10">
         <MessageInput conversationId={conversationId} />
       </div>
     </div>
