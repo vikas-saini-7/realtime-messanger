@@ -17,6 +17,7 @@ export function PresenceProvider({ children }: { children: React.ReactNode }) {
   const setUserOnline = useMutation(api.users.setUserOnline);
   const setUserOffline = useMutation(api.users.setUserOffline);
   const prevUserIdRef = React.useRef<string | undefined>(undefined);
+  const heartbeatRef = React.useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (
@@ -26,13 +27,25 @@ export function PresenceProvider({ children }: { children: React.ReactNode }) {
     ) {
       setUserOnline({ userId: convexUser._id });
       prevUserIdRef.current = convexUser._id;
+
+      // Heartbeat: update online status every 10 seconds
+      heartbeatRef.current = setInterval(() => {
+        setUserOnline({ userId: convexUser._id });
+      }, 10000);
+
       const handleUnload = () => setUserOffline({ userId: convexUser._id });
       window.addEventListener("beforeunload", handleUnload);
+
       return () => {
         setUserOffline({ userId: convexUser._id });
         window.removeEventListener("beforeunload", handleUnload);
+        if (heartbeatRef.current) clearInterval(heartbeatRef.current);
       };
     }
+    // Cleanup on unmount or user change
+    return () => {
+      if (heartbeatRef.current) clearInterval(heartbeatRef.current);
+    };
   }, [convexUser && convexUser._id]);
 
   return children;

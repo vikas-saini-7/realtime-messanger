@@ -167,12 +167,17 @@ export const getConversationHeader = query({
       (m) => m.userId !== conversation.createdBy,
     );
     let partnerUser = null;
+    let isOnline = false;
     if (partnerMember) {
       partnerUser = await ctx.db.get(partnerMember.userId);
+      if (partnerUser && partnerUser.lastSeen) {
+        // Check if lastSeen is within 30 seconds
+        isOnline = Date.now() - partnerUser.lastSeen < 30000;
+      }
     }
     return {
       conversation,
-      partnerUser,
+      partnerUser: partnerUser ? { ...partnerUser, isOnline } : null,
     };
   },
 });
