@@ -8,7 +8,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-neutral-900 flex flex-col">
-
       {/* Top Nav */}
       <header className="w-full border-b border-neutral-200">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -37,25 +36,21 @@ export default function HomePage() {
       {/* Hero */}
       <main className="flex-1 flex items-center justify-center px-6">
         <div className="max-w-3xl text-center space-y-10">
-
           <div className="space-y-6">
             <h2 className="text-5xl md:text-6xl font-semibold tracking-tight leading-[1.05]">
               Conversations,
               <br />
-              <span className="text-neutral-400">
-                beautifully simplified.
-              </span>
+              <span className="text-neutral-400">beautifully simplified.</span>
             </h2>
 
             <p className="text-lg text-neutral-500 max-w-xl mx-auto leading-relaxed">
-              A clean, real-time messaging experience built with modern web technologies.
-              Fast, secure, and minimal by design.
+              A clean, real-time messaging experience built with modern web
+              technologies. Fast, secure, and minimal by design.
             </p>
           </div>
 
           {/* CTA */}
           <div className="flex justify-center gap-4 flex-wrap">
-
             {!isLoaded ? (
               <div className="h-12 w-40 bg-neutral-200 animate-pulse rounded-lg" />
             ) : user ? (
@@ -92,13 +87,21 @@ export default function HomePage() {
               </>
             )}
           </div>
-
         </div>
       </main>
 
       {/* Footer */}
       <footer className="border-t border-neutral-200 py-6 text-center text-xs text-neutral-400">
         Built with Next.js, Convex & Clerk.
+        <br />
+        <a
+          href="https://vikas-saini.tech/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-neutral-600 ml-1"
+        >
+          My Portfolio
+        </a>
       </footer>
     </div>
   );
