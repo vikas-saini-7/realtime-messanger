@@ -1,10 +1,13 @@
 "use client";
 
+
 import { useRouter, useSearchParams } from "next/navigation";
 import { IconChevronLeft } from "@tabler/icons-react";
 import { useUser } from "@clerk/nextjs";
+import { Suspense } from "react";
 
-export default function SettingsPage() {
+
+function SettingsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, isLoaded } = useUser();
@@ -23,7 +26,7 @@ export default function SettingsPage() {
         {/* Header */}
         <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
           <button
-            onClick={() => router.back()}
+            onClick={() => router.push("/chat")}
             className="p-2 rounded-full hover:bg-gray-100 transition"
           >
             <IconChevronLeft size={20} />
@@ -107,7 +110,9 @@ export default function SettingsPage() {
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Joined</p>
                       <p className="text-sm text-gray-900">
-                        {new Date(user?.createdAt).toLocaleDateString()}
+                        {user?.createdAt
+                          ? new Date(user.createdAt).toLocaleDateString()
+                          : "-"}
                       </p>
                     </div>
                   </div>
@@ -129,5 +134,13 @@ export default function SettingsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SettingsPage() {
+  return (
+    <Suspense>
+      <SettingsPageContent />
+    </Suspense>
   );
 }
