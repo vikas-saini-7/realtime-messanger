@@ -80,7 +80,7 @@ export default function UserSearch() {
                 className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
                 onClick={() => {
                   setDropdownOpen(false);
-                  router.push("/profile");
+                  router.push("/settings?tab=profile");
                 }}
               >
                 Profile
@@ -89,7 +89,7 @@ export default function UserSearch() {
                 className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
                 onClick={() => {
                   setDropdownOpen(false);
-                  router.push("/settings");
+                  router.push("/settings?tab=preferences");
                 }}
               >
                 Settings
