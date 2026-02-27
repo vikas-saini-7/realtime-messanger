@@ -49,13 +49,13 @@ export default function UserSearch() {
           onChange={(e) => setSearch(e.target.value)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setTimeout(() => setIsFocused(false), 150)}
-          className="w-full px-4 py-2 border border-gray-100 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-200 bg-white text-gray-900 placeholder-gray-400 transition"
+          className="w-full px-4 py-2 border  rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-200 bg-white text-gray-900 placeholder-gray-400 transition"
           autoComplete="off"
         />
         <div ref={dotsRef} className="relative">
           <button
             type="button"
-            className="p-2 rounded-full hover:bg-gray-100 transition"
+            className="p-2 rounded-full hover:bg-gray-100 transition border"
             onClick={() => setDropdownOpen((v) => !v)}
             aria-label="Open menu"
           >
@@ -75,7 +75,7 @@ export default function UserSearch() {
           </button>
           {/* 3-dots dropdown */}
           {dropdownOpen && (
-            <div className="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-100 rounded-xl shadow-xl z-50 py-2">
+            <div className="absolute right-0 top-full mt-2 w-40 bg-white border rounded-xl shadow-xl z-50 py-2">
               <button
                 className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
                 onClick={() => {
@@ -101,7 +101,7 @@ export default function UserSearch() {
 
       {/* ✅ Dropdown only on focus */}
       {isFocused && (
-        <div className="absolute left-0 right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-xl max-h-72 overflow-y-auto z-40 py-2">
+        <div className="absolute left-0 right-0 mt-2 bg-white border  rounded-xl shadow-xl max-h-72 overflow-y-auto z-40 py-2">
           {!users ? (
             <div className="px-4 py-3 text-xs text-gray-400">
               Loading users...

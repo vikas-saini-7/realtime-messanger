@@ -88,7 +88,9 @@ function SettingsPageContent() {
                       </h2>
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
-                        <p className="text-sm text-green-600 font-medium">Active</p>
+                        <p className="text-sm text-green-600 font-medium">
+                          Active
+                        </p>
                       </div>
                     </div>
                   </div>

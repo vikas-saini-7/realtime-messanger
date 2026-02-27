@@ -79,7 +79,7 @@ export default function ChatHeader({ conversationId }: ChatHeaderProps) {
       <div ref={dotsRef} className="relative">
         <button
           type="button"
-          className="p-2 rounded-full hover:bg-gray-100 transition"
+          className="p-2 rounded-full hover:bg-gray-100 transition border"
           onClick={() => setDropdownOpen((v) => !v)}
           aria-label="Open menu"
         >
@@ -99,24 +99,14 @@ export default function ChatHeader({ conversationId }: ChatHeaderProps) {
         </button>
         {/* 3-dots dropdown */}
         {dropdownOpen && (
-          <div className="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-100 rounded-xl shadow-xl z-50 py-2">
+          <div className="absolute right-0 top-full mt-2 w-40 bg-white border rounded-xl shadow-xl z-50 py-2">
             <button
               className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
               onClick={() => {
                 setDropdownOpen(false);
-                router.push("/profile");
               }}
             >
-              Profile
-            </button>
-            <button
-              className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
-              onClick={() => {
-                setDropdownOpen(false);
-                router.push("/settings");
-              }}
-            >
-              Settings
+              Close
             </button>
           </div>
         )}
