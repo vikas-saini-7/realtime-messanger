@@ -29,7 +29,7 @@ export default function ChatWindow({
 
       <div className="flex-1 overflow-y-auto p-4 bg-gray-500/10">
         <MessageList conversationId={conversationId} />
-        <TypingIndicator />
+        <TypingIndicator conversationId={conversationId} />
       </div>
 
       <div className="p-3 bg-gray-500/10">
