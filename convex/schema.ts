@@ -26,6 +26,7 @@ export default defineSchema({
     isGroup: v.boolean(),
     name: v.optional(v.string()),
     createdAt: v.number(),
+    createdBy: v.id("users"),
 
     // Cached sidebar preview (optimization)
     lastMessage: v.optional(v.string()),

@@ -13,6 +13,9 @@ export default function ConversationList() {
   if (conversations.length === 0) {
     return <EmptyState message="No conversations yet" />;
   }
+  if (conversations) {
+    console.log("Conversations:", conversations);
+  }
 
   return (
     <div className="space-y-1 p-2">

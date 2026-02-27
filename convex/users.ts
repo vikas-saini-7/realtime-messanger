@@ -58,3 +58,12 @@ export const searchUsers = query({
     return users.filter((user) => user.name.toLowerCase().includes(search));
   },
 });
+
+export const getUser = query({
+  args: {
+    userId: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.userId);
+  },
+});

@@ -1,11 +1,14 @@
 import Link from "next/link";
 import Avatar from "../common/Avatar";
 import UnreadBadge from "./UnreadBadge";
+import type { ConversationItemProps } from "../../types/chat";
 
-export default function ConversationItem({ conversation }: any) {
+export default function ConversationItem({
+  conversation,
+}: ConversationItemProps) {
   return (
     <Link
-      href={`/chat/${conversation.id}`}
+      href={`/chat/${conversation._id}`}
       className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 transition"
     >
       <Avatar src={conversation.image} />

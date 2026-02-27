@@ -59,7 +59,7 @@ export default function UserSearch() {
 
                   console.log("Conversation created:", conversationId);
 
-                  router.push(`/app/chat/${conversationId}`);
+                  router.push(`/chat/${conversationId}`);
                   setSearch("");
                 }}
               >

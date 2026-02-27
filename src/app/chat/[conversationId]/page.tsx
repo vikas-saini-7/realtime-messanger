@@ -1,5 +1,13 @@
+"use client";
 import ChatWindow from "@/components/chat/ChatWindow";
+import { useParams } from "next/navigation";
 
 export default function ChatPage() {
-  return <ChatWindow />;
+  const params = useParams();
+  let conversationId = params?.conversationId;
+  if (Array.isArray(conversationId)) conversationId = conversationId[0];
+  
+  if (!conversationId) return <div>No conversation selected.</div>;
+
+  return <ChatWindow conversationId={conversationId} />;
 }

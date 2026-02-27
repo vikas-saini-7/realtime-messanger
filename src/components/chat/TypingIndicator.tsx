@@ -3,9 +3,5 @@ export default function TypingIndicator() {
 
   if (!isTyping) return null;
 
-  return (
-    <p className="text-sm text-gray-500 mt-2">
-      Someone is typing...
-    </p>
-  );
+  return <p className="text-sm text-gray-500 mt-2">Someone is typing...</p>;
 }

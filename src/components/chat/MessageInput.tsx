@@ -1,14 +1,31 @@
 "use client";
 
 import { useState } from "react";
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import type { MessageInputProps } from "../../types/chat";
+import type { Id } from "../../../convex/_generated/dataModel";
 
-export default function MessageInput() {
+export default function MessageInput({ conversationId }: MessageInputProps) {
   const [text, setText] = useState("");
 
-  const handleSend = () => {
+  const sendMessage = useMutation(api.messages.sendMessage);
+
+  const handleSend = async () => {
     if (!text.trim()) return;
-    console.log("Send:", text);
-    setText("");
+    if (!conversationId) {
+      alert("No conversation selected.");
+      return;
+    }
+    try {
+      await sendMessage({
+        conversationId: conversationId as Id<"conversations">,
+        content: text,
+      });
+      setText("");
+    } catch (err) {
+      alert("Failed to send message.");
+    }
   };
 
   return (
@@ -16,6 +33,9 @@ export default function MessageInput() {
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleSend();
+        }}
         placeholder="Type a message..."
         className="flex-1 px-3 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
