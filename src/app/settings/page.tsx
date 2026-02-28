@@ -20,7 +20,7 @@ function SettingsPageContent() {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 z-200">
       <div className="w-full max-w-3xl bg-white border border-gray-200 rounded-2xl shadow-sm">
         {/* Header */}
         <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
