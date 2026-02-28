@@ -8,7 +8,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#151818] text-neutral-100 flex flex-col">
-      
       {/* Top Nav */}
       <header className="w-full border-b border-white/10 backdrop-blur">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -41,9 +40,7 @@ export default function HomePage() {
             <h2 className="text-5xl md:text-6xl font-semibold tracking-tight leading-[1.05] text-white">
               Conversations,
               <br />
-              <span className="text-rose-400">
-                beautifully simplified.
-              </span>
+              <span className="text-rose-400">beautifully simplified.</span>
             </h2>
 
             <p className="text-lg text-neutral-400 max-w-xl mx-auto leading-relaxed">

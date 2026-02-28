@@ -5,7 +5,7 @@ import { Id } from "../../../convex/_generated/dataModel";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { formatLastSeen } from "@/lib/format-times";
-// import { IconUser, IconSettings } from "@tabler/icons-react";
+import ChatHeaderSkeleton from "../skeletons/ChatHeaderSkeleton";
 
 interface ChatHeaderProps {
   conversationId: string;
@@ -17,7 +17,7 @@ export default function ChatHeader({ conversationId }: ChatHeaderProps) {
   });
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dotsRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
+
   useEffect(() => {
     if (!dropdownOpen) return;
     function handleClick(e: MouseEvent) {
@@ -25,25 +25,13 @@ export default function ChatHeader({ conversationId }: ChatHeaderProps) {
         setDropdownOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClick);
+
     return () => document.removeEventListener("mousedown", handleClick);
   }, [dropdownOpen]);
-  if (!header)
-    return (
-      <div
-        className="flex items-center justify-between p-4 border-b bg-white animate-pulse"
-        style={{ height: 72 }}
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl border border-gray-200 bg-gray-200" />
-          <div>
-            <div className="w-24 h-4 bg-gray-200 rounded mb-2" />
-            <div className="w-16 h-3 bg-gray-200 rounded" />
-          </div>
-        </div>
-        <div className="w-8 h-8 rounded-xl border border-gray-200 bg-gray-200" />
-      </div>
-    );
+
+  if (!header) return <ChatHeaderSkeleton />;
   const { conversation, partnerUser } = header;
   return (
     <div
