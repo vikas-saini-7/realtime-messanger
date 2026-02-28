@@ -60,6 +60,7 @@ export default function MessageList({ conversationId }: MessageListProps) {
         ))}
       </div>
     );
+  console.log("messages", messages);
 
   return (
     <div className="space-y-3">
@@ -70,6 +71,7 @@ export default function MessageList({ conversationId }: MessageListProps) {
             ...msg,
             isOwn: msg.senderId === currentUser._id,
           }}
+          currentUserId={currentUser._id}
         />
       ))}
       <div ref={bottomRef} />

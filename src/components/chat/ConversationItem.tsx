@@ -35,7 +35,11 @@ export default function ConversationItem({
         </div>
 
         <p className="text-sm text-gray-500 truncate">
-          {conversation.lastMessage}
+          {conversation.lastMessage
+            ? conversation.lastMessage.length > 30
+              ? conversation.lastMessage.slice(0, 30) + "..."
+              : conversation.lastMessage
+            : "No messages yet"}
         </p>
       </div>
 
