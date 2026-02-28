@@ -8,12 +8,12 @@
  * @module
  */
 
-import type * as conversationMembers from "../conversationMembers.js";
-import type * as conversations from "../conversations.js";
+import type * as conversationMembers from "../service.conversationMembers.js";
+import type * as conversations from "../service.conversations.js";
 import type * as http from "../http.js";
-import type * as messages from "../messages.js";
-import type * as typing from "../typing.js";
-import type * as users from "../users.js";
+import type * as messages from "../service.messages.js";
+import type * as typing from "../service.typing.js";
+import type * as users from "../service.users.js";
 
 import type {
   ApiFromModules,
