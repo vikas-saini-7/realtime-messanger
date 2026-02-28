@@ -6,6 +6,7 @@ import { api } from "../../../convex/_generated/api";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function UserSearch() {
   const [search, setSearch] = useState("");
@@ -74,71 +75,87 @@ export default function UserSearch() {
             </svg>
           </button>
           {/* 3-dots dropdown */}
-          {dropdownOpen && (
-            <div className="absolute right-0 top-full mt-2 w-40 bg-white border rounded-xl shadow-xl z-50 py-2">
-              <button
-                className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
-                onClick={() => {
-                  setDropdownOpen(false);
-                  router.push("/settings?tab=profile");
-                }}
+          <AnimatePresence>
+            {dropdownOpen && (
+              <motion.div
+                className="absolute right-0 top-full mt-2 w-40 bg-white border rounded-xl shadow-xl z-50 py-2"
+                initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
               >
-                Profile
-              </button>
-              <button
-                className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
-                onClick={() => {
-                  setDropdownOpen(false);
-                  router.push("/settings?tab=preferences");
-                }}
-              >
-                Settings
-              </button>
-            </div>
-          )}
+                <button
+                  className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
+                  onClick={() => {
+                    setDropdownOpen(false);
+                    router.push("/settings?tab=profile");
+                  }}
+                >
+                  Profile
+                </button>
+                <button
+                  className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-xl transition"
+                  onClick={() => {
+                    setDropdownOpen(false);
+                    router.push("/settings?tab=preferences");
+                  }}
+                >
+                  Settings
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
       {/* ✅ Dropdown only on focus */}
-      {isFocused && (
-        <div className="absolute left-0 right-0 mt-2 bg-white border  rounded-xl shadow-xl max-h-72 overflow-y-auto z-40 py-2">
-          {!users ? (
-            <div className="px-4 py-3 text-xs text-gray-400">
-              Loading users...
-            </div>
-          ) : users.length === 0 ? (
-            <div className="px-4 py-3 text-xs text-gray-400">
-              No users found
-            </div>
-          ) : (
-            users.map((user) => (
-              <div
-                key={user._id}
-                className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-3 transition rounded-lg group"
-                onMouseDown={async () => {
-                  const conversationId = await createOrGetConversation({
-                    otherUserId: user._id,
-                  });
-                  router.push(`/chat/${conversationId}`);
-                  setSearch("");
-                }}
-              >
-                <img
-                  src={user.image}
-                  alt={user.name}
-                  className="w-10 h-10 rounded-xl border border-gray-200 object-cover shadow-sm group-hover:scale-105 transition-transform"
-                />
-                <div className="flex flex-col justify-center">
-                  <span className="font-semibold text-gray-900 leading-tight text-sm">
-                    {user.name}
-                  </span>
-                  <span className="text-xs text-gray-400">{user.email}</span>
-                </div>
+      <AnimatePresence>
+        {isFocused && (
+          <motion.div
+            className="absolute left-0 right-0 mt-2 bg-white border  rounded-xl shadow-xl max-h-72 overflow-y-auto z-40 py-2"
+            initial={{ opacity: 0, y: 10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          >
+            {!users ? (
+              <div className="px-4 py-3 text-xs text-gray-400">
+                Loading users...
               </div>
-            ))
-          )}
-        </div>
-      )}
+            ) : users.length === 0 ? (
+              <div className="px-4 py-3 text-xs text-gray-400">
+                No users found
+              </div>
+            ) : (
+              users.map((user) => (
+                <div
+                  key={user._id}
+                  className="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-3 transition rounded-lg group"
+                  onMouseDown={async () => {
+                    const conversationId = await createOrGetConversation({
+                      otherUserId: user._id,
+                    });
+                    router.push(`/chat/${conversationId}`);
+                    setSearch("");
+                  }}
+                >
+                  <img
+                    src={user.image}
+                    alt={user.name}
+                    className="w-10 h-10 rounded-xl border border-gray-200 object-cover shadow-sm group-hover:scale-105 transition-transform"
+                  />
+                  <div className="flex flex-col justify-center">
+                    <span className="font-semibold text-gray-900 leading-tight text-sm">
+                      {user.name}
+                    </span>
+                    <span className="text-xs text-gray-400">{user.email}</span>
+                  </div>
+                </div>
+              ))
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

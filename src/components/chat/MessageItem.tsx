@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 // ...existing code...
 
 export default function MessageItem({
@@ -108,137 +109,173 @@ export default function MessageItem({
   };
 
   return (
-    <div className={`flex ${isOwn ? "justify-end" : "justify-start"}`}>
-      <div
-        ref={messageRef}
-        className={`max-w-xs relative px-4 py-2 rounded-2xl text-sm ${
-          isOwn
-            ? "bg-gray-500/10 text-gray-900 rounded-tr-sm"
-            : "bg-white text-gray-800 rounded-tl-sm"
-        } ${!isDeleted && reactedEmojis.length > 0 ? "mb-2" : ""}`}
-        onMouseDown={handleLongPressStart}
-        onMouseUp={handleLongPressEnd}
-        onMouseLeave={handleLongPressEnd}
-        onTouchStart={handleLongPressStart}
-        onTouchEnd={handleLongPressEnd}
-        onTouchCancel={handleLongPressEnd}
+    <AnimatePresence>
+      <motion.div
+        className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
+        initial={{ opacity: 0, y: 20, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 20, scale: 0.98 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        layout
       >
-        {/* Dropdown menu trigger (three dots) */}
-        {!isDeleted && (
-          <button
-            className={`absolute top-2 ${isOwn ? "right-[calc(100%+4px)]" : "left-[calc(100%+4px)]"} w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-700 bg-transparent`}
-            style={{ zIndex: 10 }}
-            onClick={() => setShowMenu((v) => !v)}
-            aria-label="Open message menu"
-          >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="4" cy="9" r="1.5" fill="currentColor" />
-              <circle cx="9" cy="9" r="1.5" fill="currentColor" />
-              <circle cx="14" cy="9" r="1.5" fill="currentColor" />
-            </svg>
-          </button>
-        )}
-
-        {/* Dropdown menu */}
-        {showMenu && !isDeleted && (
-          <div
-            className={`absolute top-8 ${isOwn ? "right-[calc(100%+4px)]" : "left-[calc(100%+4px)]"} bg-white rounded-xl py-2 px-3 flex flex-col gap-2 min-w-30 text-sm`}
-            style={{ zIndex: 20, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}
-          >
+        <motion.div
+          ref={messageRef}
+          className={`max-w-xs relative px-4 py-2 rounded-2xl text-sm ${
+            isOwn
+              ? "bg-gray-500/10 text-gray-900 rounded-tr-sm"
+              : "bg-white text-gray-800 rounded-tl-sm"
+          } ${!isDeleted && reactedEmojis.length > 0 ? "mb-2" : ""}`}
+          onMouseDown={handleLongPressStart}
+          onMouseUp={handleLongPressEnd}
+          onMouseLeave={handleLongPressEnd}
+          onTouchStart={handleLongPressStart}
+          onTouchEnd={handleLongPressEnd}
+          onTouchCancel={handleLongPressEnd}
+          initial={{ opacity: 0, y: 10, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 10, scale: 0.98 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          layout
+        >
+          {/* Dropdown menu trigger (three dots) */}
+          {!isDeleted && !showPicker && (
             <button
-              className="text-gray-700 hover:bg-gray-100 rounded px-2 py-1 text-left"
-              onClick={() => {
-                navigator.clipboard.writeText(message.content || "");
-                toast.success("Copied to clipboard", { position: "top-right" });
-                setShowMenu(false);
-              }}
+              className={`absolute top-2 ${isOwn ? "right-[calc(100%+4px)]" : "left-[calc(100%+4px)]"} w-6 h-6 flex items-center justify-center text-gray-400 hover:text-gray-700 bg-transparent`}
+              style={{ zIndex: 10 }}
+              onClick={() => setShowMenu((v) => !v)}
+              aria-label="Open message menu"
             >
-              Copy Text
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="4" cy="9" r="1.5" fill="currentColor" />
+                <circle cx="9" cy="9" r="1.5" fill="currentColor" />
+                <circle cx="14" cy="9" r="1.5" fill="currentColor" />
+              </svg>
             </button>
-            {isOwn && (
-              <button
-                className="text-red-500 hover:bg-gray-100 rounded px-2 py-1 text-left"
-                onClick={() => {
-                  handleDelete();
-                  setShowMenu(false);
-                }}
+          )}
+
+          {/* Dropdown menu */}
+          <AnimatePresence>
+            {showMenu && !isDeleted && (
+              <motion.div
+                className={`absolute top-8 ${isOwn ? "right-[calc(100%+4px)]" : "left-[calc(100%+4px)]"} bg-white rounded-xl py-2 px-3 flex flex-col gap-2 min-w-30 text-sm`}
+                style={{ zIndex: 20, boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
               >
-                Delete
-              </button>
-            )}
-          </div>
-        )}
-
-        {isDeleted ? (
-          <i className="text-xs text-gray-500">This message was deleted</i>
-        ) : (
-          message.content
-        )}
-
-        {/* Reaction panel on long press */}
-        {!isDeleted && showPicker && (
-          <div
-            className={`mt-2 absolute top-0 inline-block justify-end ${isOwn ? "right-[calc(100%+6px)]" : "left-[calc(100%+6px)]"}`}
-            style={{ minWidth: "max-content" }}
-          >
-            <div
-              className={`flex gap-2 p-2 bg-white rounded-xl absolute z-20 ${isOwn ? "right-0" : "left-0"}`}
-              style={{ boxShadow: "none", border: "none" }}
-            >
-              {EMOJIS.map((emoji) => (
                 <button
-                  key={emoji}
-                  className={`text-xl w-7 h-7 flex items-center justify-center rounded-full transition-colors duration-150 hover:bg-gray-200 ${userReactionEmoji === emoji ? "bg-blue-100" : ""}`}
-                  style={{ border: "none", boxShadow: "none" }}
+                  className="text-gray-700 hover:bg-gray-100 rounded px-2 py-1 text-left"
                   onClick={() => {
-                    handleReaction(emoji);
-                    setShowPicker(false);
+                    navigator.clipboard.writeText(message.content || "");
+                    toast.success("Copied to clipboard", {
+                      position: "top-right",
+                    });
+                    setShowMenu(false);
                   }}
-                  aria-label={`React with ${emoji}`}
                 >
-                  {emoji}
+                  Copy Text
                 </button>
-              ))}
-            </div>
-          </div>
-        )}
+                {isOwn && (
+                  <button
+                    className="text-red-500 hover:bg-gray-100 rounded px-2 py-1 text-left"
+                    onClick={() => {
+                      handleDelete();
+                      setShowMenu(false);
+                    }}
+                  >
+                    Delete
+                  </button>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        {/* Show reacted emojis at bottom left, clickable to open panel */}
-        {!isDeleted && reactedEmojis.length > 0 && (
-          <div className="absolute left-3 -bottom-4 flex gap-2">
-            {reactedEmojis.map((emoji) => (
-              <button
-                key={emoji}
-                type="button"
-                className="text-base w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full focus:outline-none"
-                style={{ border: "none", boxShadow: "none", padding: 0 }}
-                onClick={() => setShowPicker(true)}
-                aria-label={`Open reactions for ${emoji}`}
+          {isDeleted ? (
+            <i className="text-xs text-gray-500">This message was deleted</i>
+          ) : (
+            message.content
+          )}
+
+          {/* Reaction panel on long press */}
+          <AnimatePresence>
+            {!isDeleted && showPicker && (
+              <motion.div
+                className={`mt-2 absolute top-0 inline-block justify-end ${isOwn ? "right-[calc(100%+6px)]" : "left-[calc(100%+6px)]"}`}
+                style={{ minWidth: "max-content" }}
+                initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
               >
-                {emoji}
-                {reactionCounts[emoji] > 1 ? (
-                  <span className="ml-1 text-[10px] text-gray-500 font-semibold">
-                    {reactionCounts[emoji]}
-                  </span>
-                ) : null}
-              </button>
-            ))}
-          </div>
-        )}
+                <div
+                  className={`flex gap-2 p-2 bg-white rounded-xl absolute z-20 ${isOwn ? "right-0" : "left-0"}`}
+                  style={{ boxShadow: "none", border: "none" }}
+                >
+                  {EMOJIS.map((emoji) => (
+                    <button
+                      key={emoji}
+                      className={`text-xl w-7 h-7 flex items-center justify-center rounded-full transition-colors duration-150 hover:bg-gray-200 ${userReactionEmoji === emoji ? "bg-blue-100" : ""}`}
+                      style={{ border: "none", boxShadow: "none" }}
+                      onClick={() => {
+                        handleReaction(emoji);
+                        setShowPicker(false);
+                      }}
+                      aria-label={`React with ${emoji}`}
+                    >
+                      {emoji}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        {/* Time */}
-        <div className="flex items-center justify-end gap-2 mt-1">
-          <span className="text-[10px] opacity-70 text-right min-w-12">
-            {formatMessageTime(message.createdAt)}
-          </span>
-        </div>
-      </div>
-    </div>
+          {/* Show reacted emojis at bottom left, clickable to open panel */}
+          <AnimatePresence>
+            {!isDeleted && reactedEmojis.length > 0 && (
+              <motion.div
+                className="absolute left-3 -bottom-4 flex gap-2"
+                initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              >
+                {reactedEmojis.map((emoji) => (
+                  <button
+                    key={emoji}
+                    type="button"
+                    className="text-base w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full focus:outline-none"
+                    style={{ border: "none", boxShadow: "none", padding: 0 }}
+                    onClick={() => setShowPicker(true)}
+                    aria-label={`Open reactions for ${emoji}`}
+                  >
+                    {emoji}
+                    {reactionCounts[emoji] > 1 ? (
+                      <span className="ml-1 text-[10px] text-gray-500 font-semibold">
+                        {reactionCounts[emoji]}
+                      </span>
+                    ) : null}
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Time */}
+          <div className="flex items-center justify-end gap-2 mt-1">
+            <span className="text-[10px] opacity-70 text-right min-w-12">
+              {formatMessageTime(message.createdAt)}
+            </span>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 }
