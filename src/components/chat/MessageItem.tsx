@@ -26,6 +26,14 @@ export default function MessageItem({
   // Reaction counts and user reaction
   const reactionCounts: Record<string, number> = {};
   const userReactions: Record<string, boolean> = {};
+  if (reactions) {
+    reactions.forEach((r: { emoji: string; userId: string }) => {
+      reactionCounts[r.emoji] = (reactionCounts[r.emoji] || 0) + 1;
+      if (r.userId === currentUserId) {
+        userReactions[r.emoji] = true;
+      }
+    });
+  }
   const EMOJIS = ["👍", "❤️", "😂", "😮", "😢"];
   const [showPicker, setShowPicker] = useState(false);
   // Close reaction panel and dropdown when clicking outside
