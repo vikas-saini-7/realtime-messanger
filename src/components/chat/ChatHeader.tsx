@@ -6,12 +6,17 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { formatLastSeen } from "@/lib/format-times";
 import ChatHeaderSkeleton from "../skeletons/ChatHeaderSkeleton";
+import { useSidebar } from "@/providers/SidebarContext";
+import { IconHammer, IconMenu2, IconMenu3 } from "@tabler/icons-react";
 
 interface ChatHeaderProps {
   conversationId: string;
 }
 
 export default function ChatHeader({ conversationId }: ChatHeaderProps) {
+  const { isSidebarOpen, setSidebarOpen } = useSidebar();
+  // You can use isSidebarOpen and setSidebarOpen as needed here
+
   const header = useQuery(api.conversations.getConversationHeader, {
     conversationId: conversationId as Id<"conversations">,
   });
@@ -38,7 +43,13 @@ export default function ChatHeader({ conversationId }: ChatHeaderProps) {
       className="flex items-center justify-between p-4 border-b bg-white"
       style={{ height: 72 }}
     >
-      <div className="flex items-center gap-3">
+      <div
+        className="md:hidden w-fit mr-4 text-gray-500 hover:text-gray-700 transition cursor-pointer"
+        onClick={() => setSidebarOpen(true)}
+      >
+        <IconMenu3 />
+      </div>
+      <div className="flex items-center gap-3 md:w-fit w-full">
         <Avatar
           src={partnerUser?.image || "/avatar.png"}
           className="w-10 h-10 rounded-xl border border-gray-200 object-cover shadow-sm"

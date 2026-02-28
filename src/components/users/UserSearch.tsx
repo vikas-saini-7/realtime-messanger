@@ -39,7 +39,7 @@ export default function UserSearch() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [dropdownOpen]);
   return (
-    <div className="relative w-full max-w-md">
+    <div className="relative w-full md:max-w-md">
       <div className="flex items-center gap-2">
         {/* ✅ Input always visible */}
         <input

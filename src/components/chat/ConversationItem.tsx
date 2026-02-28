@@ -1,22 +1,36 @@
-import Link from "next/link";
+"use client";
 import Avatar from "../common/Avatar";
 import UnreadBadge from "./UnreadBadge";
 
 import type { ConversationItemProps } from "../../types/chat";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { formatMessageTime } from "@/lib/format-times";
+import { useSidebar } from "@/providers/SidebarContext";
 
 export default function ConversationItem({
   conversation,
 }: ConversationItemProps) {
+  const { isSidebarOpen, setSidebarOpen } = useSidebar();
+
+  const router = useRouter();
+
   const params = useParams();
   const activeId = params?.conversationId;
   const isActive = activeId === conversation._id;
+  const handleLinkClick = () => {
+    if (isSidebarOpen && window.innerWidth < 768) {
+      setSidebarOpen(false);
+    }
+
+    router.push(`/chat/${conversation._id}`);
+  };
   return (
-    <Link
-      href={`/chat/${conversation._id}`}
+    <div
+      onClick={handleLinkClick}
       className={`flex items-center border border-transparent gap-3 p-3 rounded-lg transition ${
-        isActive ? "bg-gray-100 border-gray-500/10" : "hover:bg-gray-100"
+        isActive
+          ? "bg-white md:bg-gray-100 border-gray-500/10"
+          : "hover:bg-white md:hover:bg-gray-100"
       }`}
     >
       <Avatar
@@ -44,6 +58,6 @@ export default function ConversationItem({
       </div>
 
       <UnreadBadge count={conversation.unreadCount} />
-    </Link>
+    </div>
   );
 }

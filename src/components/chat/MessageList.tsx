@@ -9,6 +9,7 @@ import type { Id } from "../../../convex/_generated/dataModel";
 import MessageListSkeleton from "../skeletons/MessageListSkeleton";
 
 export default function MessageList({ conversationId }: MessageListProps) {
+  
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const messages = useQuery(

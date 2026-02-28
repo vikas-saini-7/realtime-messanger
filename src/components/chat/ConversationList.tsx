@@ -20,7 +20,7 @@ export default function ConversationList() {
   }
 
   return (
-    <div className="space-y-1 p-2 rounded-xl bg-white ">
+    <div className="space-y-1 p-2 rounded-xl">
       {conversations.map((conv) => (
         <ConversationItem key={conv?._id} conversation={conv} />
       ))}
