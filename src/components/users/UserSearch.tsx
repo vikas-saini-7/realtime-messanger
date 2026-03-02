@@ -148,7 +148,7 @@ export default function UserSearch() {
                     <span className="font-semibold text-gray-900 leading-tight text-sm">
                       {user.name}
                     </span>
-                    <span className="text-xs text-gray-400">{user.email}</span>
+                    {/* <span className="text-xs text-gray-400">{user.email}</span> */}
                   </div>
                 </div>
               ))
